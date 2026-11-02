@@ -2,7 +2,7 @@
 layout: runbook
 title: '#4471 · three problems, not one'
 owner: support desk
-status: draft
+status: closed
 reviewed: 2026-11-02
 signature: Roman Tsegelskyi
 ---
