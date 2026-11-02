@@ -42,8 +42,9 @@ belong here. The fix is the hint (or the form), not the parser.
 them. A Tuesday shows as the Monday before it, a whole month is "one day off", one client gets
 Tuesday and another gets Monday for the same meeting, an invite arrives before the booking was
 made. That pattern points at time zones (a date stored or rendered at midnight in the wrong
-zone), not at date order. The desk saw it and wrote these ids down in `desk-notes.json`, but
-[#4471](/kb/incidents/4471) still counts them under `parser`.
+zone), not at date order. The desk saw it and wrote these ids down in `desk-notes.json`. The desk
+counts them where they are filed, under `parser`, and so does the table above; this page also
+gives them a ticket of their own.
 
 <ProblemReports ticket={4471} problem="one-day" />
 
@@ -55,8 +56,9 @@ zone), not at date order. The desk saw it and wrote these ids down in `desk-note
    browser. The cause depends on the tenant's locale and booking form, and on the channel
    (`causeOf` in `causes.ts`). Intake's tags disagree with that for dozens of reports, in both
    directions; the table shows the split.
-3. **A one-day move is its own problem.** A report listed in `desk-notes.json` as a one-day move
-   goes to `one-day` before the tenant rule runs (`problemOf` in `problems.ts`).
+3. **A one-day move is its own problem, and stays counted where it is filed.** A report listed in
+   `desk-notes.json` as a one-day move keeps its place under its tenant's cause, as the desk counts
+   it (`readAs` in `causes.ts`), and is listed again under `one-day` (`problemsIn` in `problems.ts`).
 
 Every number on this page is computed from `reports-4471.json` when the page renders. When the
 desk merges more reports into #4471, the counts here move with them.

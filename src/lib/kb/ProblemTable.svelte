@@ -30,7 +30,11 @@
     {#each result.groups as g (g.problem)}
       <tr>
         <td><code>{g.problem}</code></td>
-        <td><strong>{g.reports.length}</strong></td>
+        <td>
+          <strong>{g.reports.length}</strong>
+          {#if g.filedUnder.length}<span class="muted"> · counted under {g.filedUnder.join(', ')}</span>
+          {:else if g.oneDay}<span class="muted"> · {g.oneDay} read as one-day</span>{/if}
+        </td>
         <td>{g.tenants.length}</td>
         <td class="muted">{list(g.channels)}</td>
         <td class="muted">{list(g.taggedAs)}</td>
@@ -46,6 +50,14 @@
     {/each}
   </tbody>
 </table>
+
+{#each result.groups.filter((g) => g.filedUnder.length) as g (g.problem)}
+  <p class="muted">
+    The {g.reports.length} <code>{g.problem}</code> reports stay counted where they are filed
+    (<code>{g.filedUnder.join(', ')}</code>), the way the desk counts them; they are listed again as
+    their own problem.
+  </p>
+{/each}
 
 <style>
   .sum { font-size: 1.1rem; }
