@@ -4,7 +4,7 @@ title: '#4471 · three problems, not one'
 owner: support desk
 status: closed
 reviewed: 2026-11-02
-signature: Roman Tsegelskyi
+signature: v1.eyJzdWIiOiI1ODg5IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTM2NDk1ODgsImV4cCI6MTc5MzczNTk4OH0.WmgTLyv0qfd10RnVZG92GrC6hguAYa7LG_nQwmznCf8
 ---
 
 <script>
