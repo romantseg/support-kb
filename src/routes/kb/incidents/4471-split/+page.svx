@@ -1,0 +1,74 @@
+---
+layout: runbook
+title: '#4471 · three problems, not one'
+owner: support desk
+status: draft
+reviewed: 2026-11-02
+signature: Roman Tsegelskyi
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import ProblemReports from '#lib/kb/ProblemReports.svelte';
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+  export let signature;
+</script>
+
+[#4471](/kb/incidents/4471) is marked known: one parser bug, one fix queued. The reports in it
+describe three problems. Each problem has its own ticket below, with its own count. The fix
+queued for the parser closes only the first one.
+
+<ProblemTable ticket={4471} />
+
+<Callout kind="warn">
+Shipping the parser fix does not close #4471. The <code>hint</code> and <code>one-day</code>
+reports keep coming after it ships, because their causes are elsewhere.
+</Callout>
+
+## The three problems
+
+**`parser`: the shared parser reads every date month first.** Our tenants write the day first,
+so any date whose day is 12 or less comes out with day and month swapped: 7 April becomes
+4 July. This is the bug #4471 names. Its fix is the one queued.
+
+**`hint`: booking-v3 prints the wrong format under its date field.** Tenants on `booking-v3`
+show `MM/DD/YYYY` under the date field. Their people type what the hint says, month first, and
+the form reads it the tenant's way, day first. The dates swap the same way, but the parser fix
+does not touch them. Only reports sent through the form of a day-first tenant on booking-v3
+belong here. The fix is the hint (or the form), not the parser.
+
+**`one-day`: dates move by one day, not by a swap.** These reports have no day/month swap in
+them. A Tuesday shows as the Monday before it, a whole month is "one day off", one client gets
+Tuesday and another gets Monday for the same meeting, an invite arrives before the booking was
+made. That pattern points at time zones (a date stored or rendered at midnight in the wrong
+zone), not at date order. The desk saw it and wrote these ids down in `desk-notes.json`, but
+[#4471](/kb/incidents/4471) still counts them under `parser`.
+
+<ProblemReports ticket={4471} problem="one-day" />
+
+## How the reports are placed
+
+1. **Count each report once.** The export repeats some reports (pages overlap); one id is one
+   report.
+2. **Place by tenant, not by intake tag.** `meta.intakeTag` is a guess from the reporter's
+   browser. The cause depends on the tenant's locale and booking form, and on the channel
+   (`causeOf` in `causes.ts`). Intake's tags disagree with that for dozens of reports, in both
+   directions; the table shows the split.
+3. **A one-day move is its own problem.** A report listed in `desk-notes.json` as a one-day move
+   goes to `one-day` before the tenant rule runs (`problemOf` in `problems.ts`).
+
+Every number on this page is computed from `reports-4471.json` when the page renders. When the
+desk merges more reports into #4471, the counts here move with them.
+
+## Why one ticket hid three
+
+[Decision 0001](/kb/decisions/0001-dedupe-by-subject) merges on subject alone. All three problems
+produce the same subjects ("Wrong day on the invite", "Month and day swapped?"), so the subject
+rule cannot tell them apart. The page for #4471 already computes two causes; its own table flags
+`hint` as "not this ticket — no ticket of its own":
+
+<CauseTable ticket={4471} />
+
+<RenderStamp {signature} />
