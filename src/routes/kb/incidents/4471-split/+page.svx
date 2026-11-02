@@ -13,7 +13,6 @@ signature: Roman Tsegelskyi
   import CauseTable from '#lib/kb/CauseTable.svelte';
   import Callout from '#lib/kb/Callout.svelte';
   import RenderStamp from '#lib/kb/RenderStamp.svelte';
-  export let signature;
 </script>
 
 [#4471](/kb/incidents/4471) is marked known: one parser bug, one fix queued. The reports in it

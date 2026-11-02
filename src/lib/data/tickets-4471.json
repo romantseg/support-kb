@@ -1,1 +1,5 @@
-{}
+{
+  "parser": { "title": "#1 parser", "url": "https://github.com/romantseg/support-kb/issues/1" },
+  "hint": { "title": "#2 booking-v3 hint", "url": "https://github.com/romantseg/support-kb/issues/2" },
+  "one-day": { "title": "#3 one-day move", "url": "https://github.com/romantseg/support-kb/issues/3" }
+}
